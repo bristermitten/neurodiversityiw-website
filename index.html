@@ -12,7 +12,7 @@
         let currentFont;
         let currentPrimaryColor;
         let currentBackgroundColor;
-        let fontSize = 18;
+        let fontSize;
         window.addEventListener('DOMContentLoaded', function () {
             loadFromLocalStorage();
         });
@@ -22,6 +22,9 @@
             currentPrimaryColor = localStorage.getItem("primarycolor");
             currentBackgroundColor = localStorage.getItem("bgcolor");
             fontSize = Number(localStorage.getItem("fontsize"));
+            if (fontSize === 0) {
+                fontSize = 18;
+            }
             refreshStyle();
         }
 
