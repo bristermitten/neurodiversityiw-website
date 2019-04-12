@@ -3,36 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <script src="FontManager.js"></script>
 
+    <script>
+        let fontManager = new FontManager();
+        let style;
+
+        let currentFont;
+        let currentPrimaryColor;
+        let currentBackgroundColor;
+        let fontSize = 18;
+        window.addEventListener('DOMContentLoaded', function () {
+            loadFromLocalStorage();
+        });
+
+        function loadFromLocalStorage() {
+            currentFont = fontManager.ofName(localStorage.getItem("font"));
+            currentPrimaryColor = localStorage.getItem("primarycolor");
+            currentBackgroundColor = localStorage.getItem("bgcolor");
+            fontSize = Number(localStorage.getItem("fontsize"));
+            refreshStyle();
+        }
+
+        function populateFontSelectAndAddListeners() {
+            let fontSelect = document.getElementById("fontselect");
+            for (let font of fontManager.fontList) {
+                let option = new Option(font.name);
+                if (font === currentFont) {
+                    option.defaultSelected = true;
+                    option.selected = true;
+                }
+                fontSelect.appendChild(option);
+            }
+            let primarySelector = document.querySelector("#textcolor");
+            if (currentPrimaryColor)
+                primarySelector.value = currentPrimaryColor;
+            primarySelector.addEventListener("input", e => {
+                changePrimaryColor(e.target.value);
+            }, false);
+
+            let bgSelector = document.querySelector("#backgroundcolor");
+            if (currentBackgroundColor)
+                bgSelector.value = currentBackgroundColor;
+            bgSelector.addEventListener("input", e => {
+                changeBackgroundColor(e.target.value);
+            }, false);
+
+        }
+
+        function refreshStyle() {
+            if (style)
+                document.head.removeChild(style);
+            style = document.createElement("style");
+            document.head.appendChild(style);
+            style.appendChild(
+                document.createTextNode(FontManager.createStyleSheetOfColorAndFont(currentPrimaryColor,
+                    currentBackgroundColor, currentFont.url, currentFont.name, fontSize)));
+        }
+
+        function changePrimaryColor(primaryColor) {
+            currentPrimaryColor = primaryColor;
+            localStorage.setItem("primarycolor", primaryColor);
+            refreshStyle();
+        }
+
+        function changeBackgroundColor(backgroundColor) {
+            currentBackgroundColor = backgroundColor;
+            localStorage.setItem("bgcolor", backgroundColor);
+            refreshStyle();
+        }
+
+        function changeFont(font) {
+            currentFont = font;
+            localStorage.setItem('font', font.name);
+            refreshStyle();
+        }
+
+        function changeFontSize(newFontSize) {
+            if (newFontSize < 1) return;
+            fontSize = newFontSize;
+            localStorage.setItem("fontsize", fontSize);
+            refreshStyle();
+        }
+
+        function increaseFontSize(e) {
+            changeFontSize(fontSize + 1);
+            e.stopPropagation();
+        }
+
+        function decreaseFontSize(e) {
+            changeFontSize(fontSize - 1);
+            e.stopPropagation();
+        }
+    </script>
+    <link href="index.css" rel="stylesheet" type="text/css">
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" rel="stylesheet">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
-
-    <link href="index.css" rel="stylesheet">
-
     <title>Neurodiversity IW</title>
 </head>
-<body>
-<script src="page-editor/fonts/FontManager.js"></script>
 
-<script type="javascript">
-    let fontManager = new FontManager();
-    console.log(fontManager.fontList)
-</script>
+<body onload="populateFontSelectAndAddListeners()">
 
-<div class="container">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-end">
+    <a class="navbar-brand flex-grow-1" href="#">
+        <img alt="Neurodiversity Logo" src="img/logo.png" style="width:40px;">
+    </a>
+
+    <ul class="navbar-nav">
+        <!--        Accessibility-->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                Change View (Accessible Mode)
+            </a>
+            <div class="dropdown-menu">
+                <select class="form-control" id="fontselect" onchange="
+                  changeFont(fontManager.ofName(this.value))"
+                        size="1.5">
+
+                </select>
+                <input id="textcolor" name="textcolor" type="color" value="#000000">
+                <label for="textcolor">Text Color</label><br>
+                <input id="backgroundcolor" name="backgroundcolor" type="color" value="#ffffff">
+                <label for="backgroundcolor">Background Color</label>
+                <br>
+                Text Size
+                <button class="btn btn-primary" onclick="increaseFontSize(event)" type="button">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+                <button class="btn btn-primary" onClick="decreaseFontSize(event)" type="button">
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+                <button class="btn btn-primary" onclick="const f = e => {
+                    e.stopPropagation();
+                    let bg = currentBackgroundColor;
+                   changeBackgroundColor(currentPrimaryColor);
+                   changePrimaryColor(bg);
+                };f(event);">
+                    <i class="fas fa-adjust"></i>
+                </button>
+                <button class="btn btn-primary" onclick="{
+                  changeBackgroundColor('#ffffff');
+                  changePrimaryColor('#000000');
+                  changeFontSize(18);
+                  changeFont(fontManager.defaultFont);
+                  event.stopPropagation();
+                }" type="reset">Reset
+                </button>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#">About</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#accessibility">Accessibility</a>
+                <a class="dropdown-item" href="#venue">Venue</a>
+                <a class="dropdown-item" href="#speakers">Speakers</a>
+                <a class="dropdown-item" href="#sponsors">Sponsors</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="transport.html">Transport and Accommodation</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="https://facebook.com">Facebook</a>
+        </li>
+    </ul>
+</nav>
+<br>
+
+
+<div class="container justify-content-md-center">
     <h1>Neurodiversity Isle of Wight 2019</h1>
-    <p>An open conference of neurodiversity in our daily lives</p>
+    <p>Friday 8th November 2019. Riverside Center, Newport, Isle of Wight, PO30 2QR</p>
+
+    <br>
+    <hr style="background-color: red !important;">
+    <br>
+    <h2 id="about">About</h2>
+    <p>This paragraph will talk about the conference, the CIC, etc. I'm not sure what to put here, so I'll go with
+        the
+        traditional Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent imperdiet, tortor non placerat
+        tempor,
+        augue risus lobortis nibh, sed ultricies ex nisi id leo. Donec maximus justo at lacus auctor accumsan non in
+        erat.
+        Duis ut lorem maximus, semper dolor iaculis, commodo mauris. Suspendisse nisi ante, malesuada a varius ut,
+        lobortis
+        porta lectus. Cras congue risus ligula, in rutrum nisl dapibus et. Etiam tempor justo sem, sit amet sodales
+        libero
+        aliquet a. Phasellus purus nisl, porttitor a ultrices non, volutpat vel lorem. Duis eleifend pulvinar diam
+        sit
+        amet
+        posuere. Duis convallis tincidunt ultricies.</p>
+    <br>
+    <hr style="background-color: orange !important;">
+    <br>
+
+    <h3 id="accessibility">Accessibility</h3>
+    <p>We take our duty to care for all our guests very seriously. We have a number of accessibility facilities at
+        the
+        conference.</p>
+    <ul>
+        <li>Anxiety Cafe + Breakout Space</li>
+        <li>Wheelchair accessible site</li>
+        <li>Childcare by Camock(?) IOW</li>
+        <li>Traffic Light System Stickers</li>
+    </ul>
+    <br>
+    <hr style="background-color: yellow !important;">
+    <br>
+
+    <h3 id="venue">Venue</h3>
+    <img alt="The Riverside Center" class="img-fluid" src="img/riverside.jpg">
+    <p>We are hosted at the Riverside Center in Newport, Isle of Wight PO30 2QR.
+        Car parking is available.
+        The Riverside Center is a non-smoking site.
+
+        Food and Drinks are available, prepared by the Riverside's excellent catering team. Tea and Coffee is also
+        available, along with a fully licensed bar.
+    </p>
+    <br>
+    <hr style="background-color: forestgreen !important;">
+    <br>
+
+    <h3 id="speakers">Speakers</h3>
+    <div class="card-group">
+        <div class="card bg-info">
+            <img alt="Speaker 2" class="card-img-top" src="img/speaker1.jpg">
+            <div class="card-body">
+                <h5 class="card-title">Dave "Isn't" Real</h5>
+                <p class="card-text">Dave "Isn't" Real is a professional psychologist, with a PhD in
+                    neurodiversity. He will be conducting an hour long talk on neurodiversity.</p>
+                <p class="card-text">
+                    <small class="text-dark">3pm to 4pm</small>
+                </p>
+            </div>
+        </div>
+        <div class="card bg-info">
+            <img alt="Speaker 2" class="card-img-top" src="img/speaker2.jpg">
+            <div class="card-body">
+                <h5 class="card-title">Amy Milford-Wood</h5>
+                <p class="card-text">Amy is a professional something with experience in all fields of
+                    neurodiversity, namely Autism. She will be running a talk on coping with disabilities in our
+                    daily lives.</p>
+                <p class="card-text">
+                    <small class="text-dark">12pm to 1pm</small>
+                </p>
+            </div>
+        </div>
+        <div class="card bg-info">
+            <img alt="Speaker 3" class="card-img-top" src="img/speaker3.jpg">
+            <div class="card-body">
+                <h5 class="card-title">Daniel Stevens</h5>
+                <p class="card-text">As someone with Asperger's Syndrome, it's arguable that Daniel knows more about
+                    coping with special needs than anyone. He'll be mingling all day, and taking a short Q and A
+                    session</p>
+                <p class="card-text">
+                    <small class="text-dark">All day (2pm for Q and A)</small>
+                </p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr style="background-color: dodgerblue !important;">
+    <br>
+
+    <h3>Sponsors</h3>
+    <p>Neurodiversity Isle of Wight is proud to be sponsored by the following Companies and Groups</p>
+    <ul>
+        <li><a href="http://www.parentsvoice-iw.co.uk/">Parent's Voice</a></li>
+        <li><a href="https://www.communityactionisleofwight.org.uk/">Community Action Isle of Wight</a></li>
+        <li><a href="">Camert IOW</a></li>
+        <li><a href="https://independentarts.org.uk/">Independent Arts</a></li>
+    </ul>
 </div>
-
-
-<script crossorigin="anonymous"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
