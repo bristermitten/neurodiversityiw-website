@@ -7,12 +7,9 @@
 
     <script>
         let fontManager = new FontManager();
-        let style;
+        let style, currentFont, currentPrimaryColor, currentBackgroundColor, fontSize,
+            primarySelector, bgSelector;
 
-        let currentFont;
-        let currentPrimaryColor;
-        let currentBackgroundColor;
-        let fontSize;
         window.addEventListener('DOMContentLoaded', function () {
             loadFromLocalStorage();
         });
@@ -38,14 +35,14 @@
                 }
                 fontSelect.appendChild(option);
             }
-            let primarySelector = document.querySelector("#textcolor");
+            primarySelector = document.querySelector("#textcolor");
             if (currentPrimaryColor)
                 primarySelector.value = currentPrimaryColor;
             primarySelector.addEventListener("input", e => {
                 changePrimaryColor(e.target.value);
             }, false);
 
-            let bgSelector = document.querySelector("#backgroundcolor");
+            bgSelector = document.querySelector("#backgroundcolor");
             if (currentBackgroundColor)
                 bgSelector.value = currentBackgroundColor;
             bgSelector.addEventListener("input", e => {
@@ -62,6 +59,11 @@
             style.appendChild(
                 document.createTextNode(FontManager.createStyleSheetOfColorAndFont(currentPrimaryColor,
                     currentBackgroundColor, currentFont.url, currentFont.name, fontSize)));
+            if (primarySelector)
+                primarySelector.value = currentPrimaryColor;
+            if (bgSelector)
+                bgSelector.value = currentBackgroundColor;
+
         }
 
         function changePrimaryColor(primaryColor) {
@@ -98,6 +100,21 @@
             changeFontSize(fontSize - 1);
             e.stopPropagation();
         }
+
+        function flipColors(e) {
+            e.stopPropagation();
+            let bg = currentBackgroundColor;
+            changeBackgroundColor(currentPrimaryColor);
+            changePrimaryColor(bg);
+        }
+
+        function reset(event) {
+            changeBackgroundColor('#ffffff');
+            changePrimaryColor('#000000');
+            changeFontSize(18);
+            changeFont(fontManager.defaultFont);
+            event.stopPropagation();
+        }
     </script>
     <link href="index.css" rel="stylesheet" type="text/css">
     <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -121,8 +138,7 @@
                 Change View (Accessible Mode)
             </a>
             <div class="dropdown-menu">
-                <select class="form-control" id="fontselect" onchange="
-                  changeFont(fontManager.ofName(this.value))"
+                <select class="form-control" id="fontselect" onchange="changeFont(fontManager.ofName(this.value))"
                         size="1.5">
 
                 </select>
@@ -138,21 +154,10 @@
                 <button class="btn btn-primary" onClick="decreaseFontSize(event)" type="button">
                     <i class="fas fa-arrow-down"></i>
                 </button>
-                <button class="btn btn-primary" onclick="const f = e => {
-                    e.stopPropagation();
-                    let bg = currentBackgroundColor;
-                   changeBackgroundColor(currentPrimaryColor);
-                   changePrimaryColor(bg);
-                };f(event);">
+                <button class="btn btn-primary" onclick="flipColors(event)">
                     <i class="fas fa-adjust"></i>
                 </button>
-                <button class="btn btn-primary" onclick="{
-                  changeBackgroundColor('#ffffff');
-                  changePrimaryColor('#000000');
-                  changeFontSize(18);
-                  changeFont(fontManager.defaultFont);
-                  event.stopPropagation();
-                }" type="reset">Reset
+                <button class="btn btn-primary" onclick="reset(event)" type="reset">Reset
                 </button>
             </div>
         </li>
@@ -179,7 +184,7 @@
 
 <div class="container justify-content-md-center">
     <h1>Neurodiversity Isle of Wight 2019</h1>
-    <p>Friday 8th November 2019. Riverside Center, Newport, Isle of Wight, PO30 2QR</p>
+    <p>Friday 8th November 2019. Riverside Centre, Newport, Isle of Wight, PO30 2QR</p>
 
     <br>
     <hr style="background-color: red !important;">
@@ -218,10 +223,17 @@
     <br>
 
     <h3 id="venue">Venue</h3>
-    <img alt="The Riverside Center" class="img-fluid" src="img/riverside.jpg">
-    <p>We are hosted at the Riverside Center in Newport, Isle of Wight PO30 2QR.
+    <div class="row">
+        <img alt="The Riverside Centre" class="img-fluid" src="img/riverside.webp" width="66%">
+        <iframe allowfullscreen height="300"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2526.9420560548733!2d-1.290550941459066!3d50.70245980774613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487462d3003edbf9%3A0xe838e14c6c180e1b!2sRiverside+Centre+Ltd!5e0!3m2!1sen!2suk!4v1555168290442!5m2!1sen!2suk"
+                style="border:0" width="33%"></iframe>
+    </div>
+    <br>
+
+    <p>We are hosted at the Riverside Centre in Newport, Isle of Wight PO30 2QR.
         Car parking is available.
-        The Riverside Center is a non-smoking site.
+        The Riverside Centre is a non-smoking site.
 
         Food and Drinks are available, prepared by the Riverside's excellent catering team. Tea and Coffee is also
         available, along with a fully licensed bar.
@@ -233,7 +245,7 @@
     <h3 id="speakers">Speakers</h3>
     <div class="card-group">
         <div class="card bg-info">
-            <img alt="Speaker 2" class="card-img-top" src="img/speaker1.jpg">
+            <img alt="Speaker 2" class="card-img-top" src="img/speaker1.webp">
             <div class="card-body">
                 <h5 class="card-title">Dave "Isn't" Real</h5>
                 <p class="card-text">Dave "Isn't" Real is a professional psychologist, with a PhD in
@@ -244,7 +256,7 @@
             </div>
         </div>
         <div class="card bg-info">
-            <img alt="Speaker 2" class="card-img-top" src="img/speaker2.jpg">
+            <img alt="Speaker 2" class="card-img-top" src="img/speaker2.webp">
             <div class="card-body">
                 <h5 class="card-title">Amy Milford-Wood</h5>
                 <p class="card-text">Amy is a professional something with experience in all fields of
@@ -256,7 +268,7 @@
             </div>
         </div>
         <div class="card bg-info">
-            <img alt="Speaker 3" class="card-img-top" src="img/speaker3.jpg">
+            <img alt="Speaker 3" class="card-img-top" src="img/speaker3.webp">
             <div class="card-body">
                 <h5 class="card-title">Daniel Stevens</h5>
                 <p class="card-text">As someone with Asperger's Syndrome, it's arguable that Daniel knows more about
