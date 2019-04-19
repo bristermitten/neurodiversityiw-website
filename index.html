@@ -122,90 +122,104 @@
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <title>Neurodiversity IW</title>
+
+    <style>
+        .card {
+            border: none; /*override bootstrap card outline*/
+        }
+    </style>
 </head>
 
 <body onload="populateFontSelectAndAddListeners()">
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-end">
-    <a class="navbar-brand flex-grow-1" href="#">
-        <img alt="Neurodiversity Logo" src="img/logo.png" style="width:40px;">
-    </a>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img alt="Neurodiversity Logo" src="img/logo.png" style="width: 300px;">
+        </a>
+        <ul class="navbar-nav">
+            <!--        Accessibility-->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                    Change View (Accessible Mode)
+                </a>
+                <div class="dropdown-menu">
+                    <select class="form-control" id="fontselect" onchange="changeFont(fontManager.ofName(this.value))"
+                            size="1.5">
 
-    <ul class="navbar-nav">
-        <!--        Accessibility-->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                Change View (Accessible Mode)
-            </a>
-            <div class="dropdown-menu">
-                <select class="form-control" id="fontselect" onchange="changeFont(fontManager.ofName(this.value))"
-                        size="1.5">
+                    </select>
+                    <input id="textcolor" name="textcolor" type="color" value="#000000">
+                    <label for="textcolor">Text Color</label><br>
+                    <input id="backgroundcolor" name="backgroundcolor" type="color" value="#ffffff">
+                    <label for="backgroundcolor">Background Color</label>
+                    <br>
+                    Text Size
+                    <button class="btn btn-primary" onclick="increaseFontSize(event)" type="button">
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+                    <button class="btn btn-primary" onClick="decreaseFontSize(event)" type="button">
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                    <button class="btn btn-primary" onclick="flipColors(event)">
+                        <i class="fas fa-adjust"></i>
+                    </button>
+                    <button class="btn btn-primary" onclick="reset(event)" type="reset">Reset
+                    </button>
+                </div>
+            </li>
 
-                </select>
-                <input id="textcolor" name="textcolor" type="color" value="#000000">
-                <label for="textcolor">Text Color</label><br>
-                <input id="backgroundcolor" name="backgroundcolor" type="color" value="#ffffff">
-                <label for="backgroundcolor">Background Color</label>
-                <br>
-                Text Size
-                <button class="btn btn-primary" onclick="increaseFontSize(event)" type="button">
-                    <i class="fas fa-arrow-up"></i>
-                </button>
-                <button class="btn btn-primary" onClick="decreaseFontSize(event)" type="button">
-                    <i class="fas fa-arrow-down"></i>
-                </button>
-                <button class="btn btn-primary" onclick="flipColors(event)">
-                    <i class="fas fa-adjust"></i>
-                </button>
-                <button class="btn btn-primary" onclick="reset(event)" type="reset">Reset
-                </button>
-            </div>
-        </li>
-
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#">About</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#accessibility">Accessibility</a>
-                <a class="dropdown-item" href="#venue">Venue</a>
-                <a class="dropdown-item" href="#speakers">Speakers</a>
-                <a class="dropdown-item" href="#sponsors">Sponsors</a>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#transport">Transport and Accommodation</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="https://facebook.com">
-                <i class="fab fa-facebook"></i>
-            </a>
-        </li>
-    </ul>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#">About</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#accessibility">Accessibility</a>
+                    <a class="dropdown-item" href="#venue">Venue</a>
+                    <a class="dropdown-item" href="#speakers">Speakers</a>
+                    <a class="dropdown-item" href="#sponsors">Sponsors</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#transport">Transport and Accommodation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://facebook.com">
+                    <i class="fab fa-facebook"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
 </nav>
 <br>
 
 
 <div class="container justify-content-md-center">
-    <h1>Neurodiversity Isle of Wight 2019</h1>
-    <p>Friday 8th November 2019. Riverside Centre, Newport, Isle of Wight, PO30 2QR</p>
-
+    <div class="row">
+        <div class="col-8">
+            <h1>Neurodiversity Isle of Wight 2019</h1>
+            <p>Friday 8th November 2019. Riverside Centre, Newport, Isle of Wight, PO30 2QR</p>
+        </div>
+        <div class="col">
+            <a href="https://www.eventbrite.co.uk/e/neurodiversity-iw-2019-tickets-60345930302">
+                <button class="btn btn-primary"
+                        type="button">Find us on
+                    <img alt="Eventbrite Logo" class="img-fluid" src="img/eventbrite.png"
+                         style="height: 50px;">
+                </button>
+            </a>
+        </div>
+    </div>
     <br>
     <hr style="background-color: red !important;">
     <br>
     <h2 id="about">About</h2>
-    <p>This paragraph will talk about the conference, the CIC, etc. I'm not sure what to put here, so I'll go with
-        the
-        traditional Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent imperdiet, tortor non placerat
-        tempor,
-        augue risus lobortis nibh, sed ultricies ex nisi id leo. Donec maximus justo at lacus auctor accumsan non in
-        erat.
-        Duis ut lorem maximus, semper dolor iaculis, commodo mauris. Suspendisse nisi ante, malesuada a varius ut,
-        lobortis
-        porta lectus. Cras congue risus ligula, in rutrum nisl dapibus et. Etiam tempor justo sem, sit amet sodales
-        libero
-        aliquet a. Phasellus purus nisl, porttitor a ultrices non, volutpat vel lorem. Duis eleifend pulvinar diam
-        sit
-        amet
-        posuere. Duis convallis tincidunt ultricies.</p>
+    <p> Aimed at neurodivergent adults, parents, carers and family members of neurodivergent people, and professionals
+        working in the field, this conference will bring national and international speakers to the Isle of Wight to
+        share their knowledge and expertise. Around one third of our speakers are neurodiverse themselves, a further
+        third are parents or carers of neurodiverse people, and all of our speakers are leaders within their fields.
+        <br>
+        The conference will be free to attend, but you must book your place. There will be a range of presentations and
+        workshops on the day. Individual sessions will be bookable on the day. Due to constraints on numbers we are
+        unable to guarantee places on any specific session, but there will be several streams on the day and there will
+        always be something of interest!</p>
     <br>
     <hr style="background-color: orange !important;">
     <br>
@@ -215,10 +229,15 @@
         the
         conference.</p>
     <ul>
-        <li>Anxiety Cafe + Breakout Space</li>
-        <li>Wheelchair accessible site</li>
-        <li>Childcare by Camock(?) IOW</li>
-        <li>Traffic Light System Stickers</li>
+        <li>Colour Communication Badges</li>
+        <li>The Riverside Centre is fully accessible and has a number of disabled parking bays.</li>
+        <li>Creche (subject to space - must be booked in advance, please email neurodiversityiw2019@gmail.com for more
+            details)
+        </li>
+        <li>Breakout space for adults - run by Anxiety Cafe IW</li>
+        <li>Information stands that may be of interest, including universities, third sector organisations and
+            therapists
+        </li>
     </ul>
     <br>
     <hr style="background-color: yellow !important;">
@@ -234,14 +253,14 @@
     <br>
 
     <p>We are hosted at the Riverside Centre in Newport, Isle of Wight PO30 2QR.
-        <br/>
-        Car parking is available.
-        <br/>
-        The Riverside Centre is a non-smoking site.
-        <br/>
-        Food and Drinks are available, prepared by the Riverside's excellent catering team. Tea and Coffee is also
-        available, along with a fully licensed bar.
-    </p>
+        The Riverside includes a number of facilities
+    <ul>
+        <li>Lunch can be provided for a charge (must be booked at registration on the day)</li>
+        <li>Tea, coffee and soft drinks will be available to purchase from the bar</li>
+        <li>Free Parking (subject to space - further chargeable parking is nearby)</li>
+        <li>There is a bus stop less than 5 minutes walk away from the venue</li>
+        <li>The Riverside Centre is a non-smoking venue.</li>
+    </ul>
     <br>
     <hr style="background-color: forestgreen !important;">
     <br>
@@ -249,42 +268,40 @@
     <h3 id="speakers">Speakers</h3>
     <div class="card-group">
         <div class="card bg-info">
-            <img alt="Speaker 2" class="card-img-top" src="img/speaker1.webp">
+            <img alt="Speaker 2" class="card-img-top" src="img/speakers/jim-blair.jpg">
             <div class="card-body">
-                <h5 class="card-title">Dave "Isn't" Real</h5>
-                <p class="card-text">Dave "Isn't" Real is a professional psychologist, with a PhD in
-                    neurodiversity. He will be conducting an hour long talk on neurodiversity.</p>
-                <p class="card-text">
-                    <small class="text-dark">3pm to 4pm</small>
+                <h5 class="card-title">Jim Blair</h5>
+                <p class="card-text">Consultant Learning Disability Nurse at Great Ormond Street
+                    Children's Hospital
                 </p>
             </div>
         </div>
         <div class="card bg-info">
-            <img alt="Speaker 2" class="card-img-top" src="img/speaker2.webp">
+            <img alt="Speaker 2" class="card-img-top" src="img/speakers/jeremy-turk.jpg">
             <div class="card-body">
-                <h5 class="card-title">Amy Milford-Wood</h5>
-                <p class="card-text">Amy is a professional something with experience in all fields of
-                    neurodiversity, namely Autism. She will be running a talk on coping with disabilities in our
-                    daily lives.</p>
-                <p class="card-text">
-                    <small class="text-dark">12pm to 1pm</small>
-                </p>
+                <h5 class="card-title">Professor Jeremy Turk</h5>
+                <p class="card-text">Child and Adolescent Consultant Psychiatrist</p>
             </div>
         </div>
         <div class="card bg-info">
-            <img alt="Speaker 3" class="card-img-top" src="img/speaker3.webp">
+            <img alt="Speaker 3" class="card-img-top" src="img/speakers/ken-greaves.jpeg">
             <div class="card-body">
-                <h5 class="card-title">Daniel Stevens</h5>
-                <p class="card-text">As someone with Asperger's Syndrome, it's arguable that Daniel knows more about
-                    coping with special needs than anyone. He'll be mingling all day, and taking a short Q and A
-                    session</p>
-                <p class="card-text">
-                    <small class="text-dark">All day (2pm for Q and A)</small>
-                </p>
+                <h5 class="card-title">Dr Ken Greaves</h5>
+                <p class="card-text">HCPC Registered Chartered Psychologist, Chartered Scientist</p>
             </div>
         </div>
-        Food and Drinks are available, prepared by the Riverside's excellent catering team. Tea and Coffee is also
-        available, along with a fully licensed bar.
+        <div class="card bg-info">
+            Other Speakers Include: <br><br>
+            <ul>
+                <li>Eleanor Wright of SOS!SEN</li>
+                <li>Trude Stenhammer - National Autistic Society, Norway</li>
+                <li>Dr Gillian Harris - of Birmingham Food Refusal Services, author of 'Food Refusal and Avoidant Eating
+                    in Children'
+                </li>
+                <li>Tigger Pritchard of the Autism Coffee Shop</li>
+                <li>Yvonne Newbold of The SEND VCB Project, author of 'The Special Parents Handbook'</li>
+            </ul>
+        </div>
     </div>
     <br>
     <hr style="background-color: dodgerblue !important;">
@@ -350,6 +367,39 @@
     <br>
     <hr style="background-color: darkviolet !important;">
     <br>
+
+    <footer class="page-footer ">
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+
+                <div class="col-md-5">
+                    <h5 class="text-uppercase">Neurodiversity Isle of Wight 2019</h5>
+                    <p>Friday 8th November 2019. Riverside Centre, Newport, Isle of Wight, PO30 2QR</p>
+                </div>
+
+                <div class="col-md-5">
+                    <h5 class="text-uppercase ml-auto">Links</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://facebook.com/">Facebook</a>
+                        </li>
+                        <li>
+                            <a href="https://www.eventbrite.co.uk/e/neurodiversity-iw-2019-tickets-60345930302">
+                                Book a place now</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <small class="text-dark">
+                        Made with <i class="fas fa-heart"></i>
+                        by <a href="http://bristermitten.me">Alexander Wood</a>
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+    </footer>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
