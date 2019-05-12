@@ -27,6 +27,7 @@
 
         function populateFontSelectAndAddListeners() {
             let fontSelect = document.getElementById("fontselect");
+
             for (let font of fontManager.fontList) {
                 let option = new Option(font.name);
                 if (font === currentFont) {
@@ -59,9 +60,9 @@
             style.appendChild(
                 document.createTextNode(FontManager.createStyleSheetOfColorAndFont(currentPrimaryColor,
                     currentBackgroundColor, currentFont.url, currentFont.name, fontSize)));
-            if (primarySelector)
+            if (primarySelector && currentPrimaryColor)
                 primarySelector.value = currentPrimaryColor;
-            if (bgSelector)
+            if (bgSelector && currentBackgroundColor)
                 bgSelector.value = currentBackgroundColor;
 
         }
@@ -137,6 +138,7 @@
         <a class="navbar-brand" href="#">
             <img alt="Neurodiversity Logo" src="img/logo.png" style="width: 300px;">
         </a>
+
         <ul class="navbar-nav">
             <!--        Accessibility-->
             <li class="nav-item dropdown">
@@ -144,10 +146,14 @@
                     Change View (Accessible Mode)
                 </a>
                 <div class="dropdown-menu">
-                    <select class="form-control" id="fontselect" onchange="changeFont(fontManager.ofName(this.value))"
-                            size="1.5">
+                    <div class="form-group">
+                        <form>
+                            <label for="fontselect">Change Font:</label>
+                            <select class="form-control" id="fontselect" size="1.5"
+                                    onchange="changeFont(fontManager.ofName(this.value))"></select>
+                        </form>
+                    </div>
 
-                    </select>
                     <input id="textcolor" name="textcolor" type="color" value="#000000">
                     <label for="textcolor">Text Color</label><br>
                     <input id="backgroundcolor" name="backgroundcolor" type="color" value="#ffffff">
@@ -199,7 +205,7 @@
         </div>
         <div class="col">
             <a href="https://www.eventbrite.co.uk/e/neurodiversity-iw-2019-tickets-60345930302">
-                <button class="btn btn-primary"
+                <button class="btn btn-success"
                         type="button">Find us on
                     <img alt="Eventbrite Logo" class="img-fluid" src="img/eventbrite.png"
                          style="height: 50px;">
@@ -325,7 +331,12 @@
         <div class="col">
             The Isle of Wight is conveniently located just off the south coast of England. Passenger and vehicle
             crossings are available from Southampton, Portsmouth, and the New Forest.
-            <!--            <img alt="Ryde Pier" class="img-fluid" src="img/pier.webp">-->
+            Transport Methods:
+            <ul>
+                <li><a href="https://www.wightlink.co.uk/">Wightlink</a></li>
+                <li><a href="https://www.hovertravel.co.uk/">Hovertravel</a></li>
+                <li><a href="https://www.redfunnel.co.uk/en/">Red Funnel</a></li>
+            </ul>
         </div>
     </div>
     <div class="row">
