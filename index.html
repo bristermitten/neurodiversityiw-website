@@ -133,7 +133,7 @@
 
 <body onload="populateFontSelectAndAddListeners()">
 
-<nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end">
+<nav class="navbar navbar-dark bg-primary navbar-expand-md  justify-content-end">
     <div class="container">
         <a class="navbar-brand" href="#">
             <img alt="Neurodiversity Logo" src="img/logo.png" style="width: 300px;">
@@ -149,8 +149,9 @@
                     <div class="form-group">
                         <form>
                             <label for="fontselect">Change Font:</label>
-                            <select class="form-control" id="fontselect" size="1.5"
-                                    onchange="changeFont(fontManager.ofName(this.value))"></select>
+                            <select class="form-control" id="fontselect"
+                                    onchange="changeFont(fontManager.ofName(this.value))"
+                                    size="1.5"></select>
                         </form>
                     </div>
 
@@ -231,9 +232,6 @@
     <br>
 
     <h3 id="accessibility">Accessibility</h3>
-    <p>We take our duty to care for all our guests very seriously. We have a number of accessibility facilities at
-        the
-        conference.</p>
     <ul>
         <li>Colour Communication Badges</li>
         <li>The Riverside Centre is fully accessible and has a number of disabled parking bays.</li>
@@ -272,40 +270,35 @@
     <br>
 
     <h3 id="speakers">Speakers</h3>
-    <div class="card-group">
+    <p>Speakers will be revealed soon...</p>
+    <div class="card-group" hidden>
         <div class="card bg-info">
-            <img alt="Speaker 2" class="card-img-top" src="img/speakers/jim-blair.jpg">
+            <img alt="Speaker 2" class="card-img-top" src="img/speakers/speaker1.jpg">
             <div class="card-body">
-                <h5 class="card-title">Jim Blair</h5>
-                <p class="card-text">Consultant Learning Disability Nurse at Great Ormond Street
-                    Children's Hospital
+                <h5 class="card-title">Speaker 1</h5>
+                <p class="card-text">Speaker 1 Description
                 </p>
             </div>
         </div>
         <div class="card bg-info">
-            <img alt="Speaker 2" class="card-img-top" src="img/speakers/jeremy-turk.jpg">
+            <img alt="Speaker 2" class="card-img-top" src="img/speakers/speaker2.jpg">
             <div class="card-body">
-                <h5 class="card-title">Professor Jeremy Turk</h5>
-                <p class="card-text">Child and Adolescent Consultant Psychiatrist</p>
+                <h5 class="card-title">Speaker 2</h5>
+                <p class="card-text">Speaker 2 Description</p>
             </div>
         </div>
         <div class="card bg-info">
-            <img alt="Speaker 3" class="card-img-top" src="img/speakers/ken-greaves.jpeg">
+            <img alt="Speaker 3" class="card-img-top" src="img/speakers/speaker3.jpg">
             <div class="card-body">
-                <h5 class="card-title">Dr Ken Greaves</h5>
-                <p class="card-text">HCPC Registered Chartered Psychologist, Chartered Scientist</p>
+                <h5 class="card-title">Speaker 3</h5>
+                <p class="card-text">Speaker 3 Description</p>
             </div>
         </div>
         <div class="card bg-info">
             Other Speakers Include: <br><br>
             <ul>
-                <li>Eleanor Wright of SOS!SEN</li>
-                <li>Trude Stenhammer - National Autistic Society, Norway</li>
-                <li>Dr Gillian Harris - of Birmingham Food Refusal Services, author of 'Food Refusal and Avoidant Eating
-                    in Children'
-                </li>
-                <li>Tigger Pritchard of the Autism Coffee Shop</li>
-                <li>Yvonne Newbold of The SEND VCB Project, author of 'The Special Parents Handbook'</li>
+                <li>4</li>
+                <li>5</li>
             </ul>
         </div>
     </div>
