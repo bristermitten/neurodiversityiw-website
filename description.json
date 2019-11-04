@@ -1,0 +1,4 @@
+{
+  "subtitle": "A simple website that I made for a local charity in Bootstrap",
+  "description": "For my Duke of Edinburgh award, I had to volunteer for a local organisation. A family friend contacted me and mentioned that they needed a website for their charity, and I was happy to oblige. I had to cater for accessibility with this project especially, so I made a font picker in JavaScript, with dyslexia friendly fonts and changable colour schemes and font sizes for extra visibility. Bootstrap was a learning experience, but it made creating a nice looking website both effortless and appealing. I used CloudFlare for caching and request optimisation, and host the website with a CNAME'd GitHub Pages.  Overall, it was a great experience that taught me a lot about web development."
+}
